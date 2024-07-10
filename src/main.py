@@ -43,10 +43,7 @@ for mentor in pairings.keys():
     print("Compatability: {}".format(calc_compatability(pairings[mentor], mentor)))
     print("----------------------")
 """
-for n, i in enumerate(pairings.keys()):
-    if i.netID == 'lmh132':
-        print(n)
-        pairings[i].to_string()
+
 f = open("data/real/'24/pairings.pkl", "wb")
 pickle.dump(pairings, f)
 f.close()

@@ -95,9 +95,10 @@ def calc_compatability(mentee: Mentee, mentor: Mentor, verbose = False):
                 case Arch.SPECTRUM:
                     score += (2-(abs(x[i] - y[i])))*2
                 case Arch.CHOICES:
-                    score -= 2
                     if x[i] == y[i]:
-                        score += 4
+                        score += 2
+                    else:
+                        score -= 2
                 case Arch.MULTI:
                     score -= 2
                     for thing in x[i]:
@@ -105,9 +106,10 @@ def calc_compatability(mentee: Mentee, mentor: Mentor, verbose = False):
                             score += 2
                 case Arch.CHOICES_NOMATCH:
                     if x[i] != -1 and y[i] != -1:
-                        score -= 2
                         if x[i] == y[i]:
                             score += 4
+                        else:
+                            score -= 4
                 case Arch.YESNO:
                     if x[i] == y[i]:
                         score += 4
