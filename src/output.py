@@ -2,7 +2,7 @@ import pickle
 import csv
 
 with open("data/real/'24/pairings.pkl", "rb") as pkl:
-    with open("data/real/'24/pairings.csv", "w") as f:
+    with open("results/pairings.csv", "w") as f:
         pairings = pickle.load(pkl)
         writer = csv.writer(f)
 
@@ -16,7 +16,7 @@ with open("data/real/'24/pairings.pkl", "rb") as pkl:
     pkl.close()
 
 with open("data/real/'24/leftovers.pkl", "rb") as pkl:
-    with open("data/real/'24/leftovers.csv", "w") as f:
+    with open("results/leftovers.csv", "w") as f:
         leftovers = pickle.load(pkl)
         writer = csv.writer(f)
 

@@ -89,32 +89,29 @@ def calc_compatability(mentee: Mentee, mentor: Mentor, verbose = False):
         score = 0
         x = mentee.responses[section]
         y = mentor.responses[section]
+        maximum = len(score_types[section])*4
         for i in range(0, len(x)):
             if verbose: print(x[i], y[i], score_types[section][i])
             match score_types[section][i]:
                 case Arch.SPECTRUM:
-                    score += (2-(abs(x[i] - y[i])))*2
+                    score += 4-abs(x[i] - y[i])
                 case Arch.CHOICES:
                     if x[i] == y[i]:
-                        score += 2
-                    else:
-                        score -= 2
+                        score += 4
                 case Arch.MULTI:
-                    score -= 2
                     for thing in x[i]:
                         if thing in y[i]:
                             score += 2
                 case Arch.CHOICES_NOMATCH:
                     if x[i] != -1 and y[i] != -1:
                         if x[i] == y[i]:
-                            score += 4
-                        else:
-                            score -= 4
+                            score += 6
+                    else:
+                        maximum -= 4
                 case Arch.YESNO:
                     if x[i] == y[i]:
                         score += 4
-                    else:
-                        score -= 4
+        score = score/maximum
         if verbose: print("-----{s} Compatability: {n}-----".format(s = section, n = score))
         total += score * mentee.weights[section]
     if verbose: print("-----Overall Compatability: {n}-----".format(n = total))

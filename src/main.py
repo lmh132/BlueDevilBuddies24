@@ -11,15 +11,7 @@ for mentee in mentees:
     mentee.pairing_ranking = sorted(mentors, key = lambda x: calc_compatability(mentee, x), reverse=True)
 
 for mentor in mentors:
-    #mentor.to_string()
     mentor.pairing_ranking = sorted(mentees, key = lambda x: calc_compatability(x, mentor), reverse=True)
-"""
-mentees[0].to_string()
-print("--------------------")
-for m in mentees[0].pairing_ranking[:5]:
-    m.to_string()
-    calc_compatability(mentees[0], m, verbose = True)
-"""
 
 pairings = {}
 
@@ -36,13 +28,11 @@ while len(mentees) > 0:
         else:
             pairings[preferred_mentor] = prev
             mentees.append(mentee)
-"""
 for mentor in pairings.keys():
     print("Mentor: {}".format(mentor.fname + " " + mentor.lname))
     print("Mentee: {}".format(pairings[mentor].fname + " " + pairings[mentor].lname))
     print("Compatability: {}".format(calc_compatability(pairings[mentor], mentor)))
     print("----------------------")
-"""
 
 f = open("data/real/'24/pairings.pkl", "wb")
 pickle.dump(pairings, f)

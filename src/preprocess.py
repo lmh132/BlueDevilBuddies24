@@ -50,10 +50,10 @@ def process_mentees(data: pd.DataFrame) -> list[Mentee]:
             scores[mentees_dict[i-2][0]].append(raw)
         weights = {
             "GM" : 1.5,
-            "AL" : 2,
-            "CL" : 1.5,
-            "PB" : 1,
-            "LS" : 0.5,
+            "AL" : 2.5,
+            "CL" : 2,
+            "PB" : 1.5,
+            "LS" : 1,
         }
         if type(row[33]) != float:
             weights["AL"] = int(row[33])
