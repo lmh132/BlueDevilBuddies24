@@ -25,6 +25,7 @@ def cleanup(filename: str):
 
 def process_mentees(data: pd.DataFrame) -> list[Mentee]:
     ret = [] #list of mentees to return
+    processed = set()
     for row in data.itertuples():
         scores = defaultdict(list)
         
@@ -66,16 +67,20 @@ def process_mentees(data: pd.DataFrame) -> list[Mentee]:
         first, last = str(row[38]), str(row[39])
         email = str(row[41])
 
-        mentee = Mentee(fname=first, lname=last, netID=netID, email=email, number=number, responses=scores, weights=weights)
-        mentee.set_arr()
+        
         #mentee.to_string()
-        ret.append(mentee)
+        if netID not in processed:
+            mentee = Mentee(fname=first, lname=last, netID=netID, email=email, number=number, responses=scores, weights=weights)
+            mentee.set_arr()
+            ret.append(mentee)
+            processed.add(netID)
 
     print("{l} mentees processed".format(l = len(ret)))
     return ret
 
 def process_mentors(data: pd.DataFrame) -> list[Mentor]:
     ret = [] #list of mentors to return
+    processed = set()
     for row in data.itertuples():
         scores = defaultdict(list)
         for i in range(2, len(mentors_dict)+2):
@@ -102,11 +107,13 @@ def process_mentors(data: pd.DataFrame) -> list[Mentor]:
         netID = str(row[35])
         first, last = str(row[36]), str(row[37])
         email = str(row[39])
-
-        mentor = Mentor(fname=first, lname=last, netID=netID, email=email, number=number, responses=scores)
-        mentor.set_arr()
+        
         #mentor.to_string()
-        ret.append(mentor)
+        if netID not in processed:
+            mentor = Mentor(fname=first, lname=last, netID=netID, email=email, number=number, responses=scores)
+            mentor.set_arr()
+            processed.add(netID)
+            ret.append(mentor)
 
     print("{l} mentors processed".format(l = len(ret)))
     return ret
