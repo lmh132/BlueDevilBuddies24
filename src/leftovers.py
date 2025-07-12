@@ -3,7 +3,7 @@ from classes import Mentee, Mentor
 import pickle
 import csv
 
-f = open("data/real/'24/pairings.pkl", "rb")
+f = open("src/pairings-25", "rb")
 pairs = pickle.load(f)
 f.close()
 
@@ -12,7 +12,7 @@ matched_mentees = [mentee.netID for mentee in pairs.values()]
 
 drop = []
 
-mentors_df = pd.read_csv("data/real/'24/mentor_words.csv")
+mentors_df = pd.read_csv("src/mentors-25.csv")
 for index, row in mentors_df.iterrows():
     if row.iloc[59] in matched_mentors:
         #print("dropped {}".format(row.iloc[59]))
@@ -25,11 +25,11 @@ mentors_df = mentors_df.drop(["StartDate", "EndDate", "Status", "IPAddress", "Pr
                     "Q1_Operating System", "Q1_Resolution", "RecipientLastName", 
                     "RecipientFirstName", "RecipientEmail"], axis = 1)
 mentors_df = mentors_df.drop(drop, axis = 0)
-mentors_df.to_csv("results/leftover_mentors.csv")
+mentors_df.to_csv("src/leftover_mentors.csv")
 
 drop.clear()
 
-mentees_df = pd.read_csv("data/real/'24/mentee_words.csv")
+mentees_df = pd.read_csv("src/mentees-25.csv")
 for index, row in mentees_df.iterrows():
     if row.iloc[60] in matched_mentees:
         #print("dropped {}".format(row.iloc[60]))
@@ -44,4 +44,4 @@ mentees_df = mentees_df.drop(["StartDate", "EndDate", "Status", "IPAddress", "Pr
                     "LocationLongitude", "DistributionChannel", "UserLanguage", "Q1_Browser", "Q1_Version", 
                     "Q1_Operating System", "Q1_Resolution", "RecipientLastName", 
                     "RecipientFirstName", "RecipientEmail"], axis = 1)
-mentees_df.to_csv("results/leftover_mentees.csv")
+mentees_df.to_csv("src/leftover_mentees.csv")

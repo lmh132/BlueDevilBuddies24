@@ -1,12 +1,12 @@
 import pickle
 import csv
 
-with open("data/real/'24/pairings.pkl", "rb") as pkl:
-    with open("results/pairings.csv", "w") as f:
+with open("25/pairings-25.pkl", "rb") as pkl:
+    with open("25/pairings-25.csv", "w") as f:
         pairings = pickle.load(pkl)
         writer = csv.writer(f)
 
-        writer.writerow(["Mentor", "Mentor netID", "Mentor email", "Mentee", "Mentee netID", "Mentee email"])
+        writer.writerow(["Mentor", "Mentor netID", "Mentor email", "Mentee", "Mentee netID", "Mentee email", "Compatability Score"])
         for pairing in pairings.items():
             mentor = pairing[0]
             mentee = pairing[1]
@@ -15,8 +15,8 @@ with open("data/real/'24/pairings.pkl", "rb") as pkl:
         f.close()
     pkl.close()
 
-with open("data/real/'24/leftovers.pkl", "rb") as pkl:
-    with open("results/leftovers.csv", "w") as f:
+with open("25/leftovers.pkl", "rb") as pkl:
+    with open("25/leftovers.csv", "w") as f:
         leftovers = pickle.load(pkl)
         writer = csv.writer(f)
 

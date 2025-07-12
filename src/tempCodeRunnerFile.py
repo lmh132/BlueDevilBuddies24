@@ -1,1 +1,0 @@
-with open("data/real/'24/pairings.pkl", "rb") as pkl:

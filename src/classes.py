@@ -15,30 +15,16 @@ class Person:
         self.pairing_ranking = []
 
     def to_string(self):
-        print("{f} {l} || {n} || {p} || {e}".format(f = self.fname, l = self.lname, n = self.netID, p = self.number, e = self.email))
+        return "{f} {l} || {n} || {p} || {e}".format(f = self.fname, l = self.lname, n = self.netID, p = self.number, e = self.email)
         #print(self.responses)
 
 class Mentee(Person):
     def __init__(self, fname, lname, netID, email, number, responses, weights):
         super().__init__(fname, lname, netID, email, number, responses)
         self.weights = weights
+        self.set_quad()
 
-    def set_arr(self):
-        mentee_arr = [0]*6
-        match self.responses["GM"][0]: #gap year / transfer
-            case 2:
-                mentee_arr[1] = 1
-            case 4:
-                mentee_arr[0] = 1
-
-        for i in range(1, 4): #spectrum questions x3
-            mentee_arr[i+1] = self.responses["GM"][i]
-        
-        if self.responses["GM"][4] == 1: #abroad preference
-            mentee_arr[5] = 1
-
-        self.responses["GM"] = mentee_arr
-
+    def set_quad(self):
         match self.responses["CL"][0]:
             case 2 | 10: #pegram or basset -> craven
                 self.responses["CL"][0] = 1
@@ -58,8 +44,7 @@ class Mentee(Person):
                 self.responses["CL"][0] = 11
 
     def to_string(self):
-        super().to_string()
-        print(self.weights)
+        return super().to_string()+"GM: {gm} | AL: {al} | CL: {cl} | PB: {pb} | LS: {ls}".format(gm=self.weights["GM"], al=self.weights["AL"], cl=self.weights["CL"], pb=self.weights["PB"], ls = self.weights["LS"])
 
 class Mentor(Person):
     def __init__(self, fname, lname, netID, email, number, responses):
@@ -90,12 +75,15 @@ def calc_compatability(mentee: Mentee, mentor: Mentor, verbose = False):
         x = mentee.responses[section]
         y = mentor.responses[section]
         maximum = len(score_types[section])*4
-        for i in range(0, len(x)):
+        for i in range(len(x)):
             if verbose: print(x[i], y[i], score_types[section][i])
             match score_types[section][i]:
                 case Arch.SPECTRUM:
                     score += 4-abs(x[i] - y[i])
                 case Arch.CHOICES:
+                    if section == "AL" and i == 0:
+                        if x[i] != y[i]:
+                            score -= 100000
                     if x[i] == y[i]:
                         score += 4
                 case Arch.MULTI:

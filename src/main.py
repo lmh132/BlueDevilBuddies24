@@ -5,8 +5,8 @@ from preprocess import process_mentees, process_mentors
 import pandas as pd
 import pickle
 
-mentees = process_mentees(pd.read_csv("data/real/'24/mentees.csv"))
-mentors = process_mentors(pd.read_csv("data/real/'24/mentors.csv"))
+mentees = process_mentees("25/mentees-25.csv")
+mentors = process_mentors("25/mentors-25.csv")
 for mentee in mentees:
     mentee.pairing_ranking = sorted(mentors, key = lambda x: calc_compatability(mentee, x), reverse=True)
 
@@ -28,17 +28,19 @@ while len(mentees) > 0:
         else:
             pairings[preferred_mentor] = prev
             mentees.append(mentee)
-for mentor in pairings.keys():
-    print("Mentor: {}".format(mentor.fname + " " + mentor.lname))
-    print("Mentee: {}".format(pairings[mentor].fname + " " + pairings[mentor].lname))
-    print("Compatability: {}".format(calc_compatability(pairings[mentor], mentor)))
-    print("----------------------")
 
-f = open("data/real/'24/pairings.pkl", "wb")
+print("Pairings complete, {} mentees matched".format(len(pairings)))
+for mentor in pairings.keys():
+    mentor_netID = mentor.netID
+    mentee_netID = pairings[mentor].netID
+    score = calc_compatability(pairings[mentor], mentor)
+    
+
+f = open("25/pairings-25.pkl", "wb")
 pickle.dump(pairings, f)
 f.close()
 
 nomatch = [x for x in mentors if x not in pairings.keys()]
-f = open("data/real/'24/leftovers.pkl", "wb")
+f = open("25/leftovers.pkl", "wb")
 pickle.dump(nomatch, f)
 f.close()
